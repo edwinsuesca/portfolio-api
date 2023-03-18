@@ -13,5 +13,6 @@ app.use(cors({
 }));
 
 app.post('/api/send-sessage', controllers.sendMessage);
+app.post('/api/send-comment', controllers.sendComment);
 
 module.exports = app;
