@@ -1,8 +1,7 @@
 require('dotenv').config();
-const https = require('https');
-const fs = require('fs');
-require('dotenv').config();
-const app = require('./src/app')
+import https from 'https';
+import fs from 'fs';
+import app from './src/app'
 const port = process.env.PORT || 3200;
 
 //INICIAR SERVIDOR EN ENTORNO DE DESARROLLO
