@@ -1,20 +1,30 @@
 {
-  "name": "portfolio-backend",
+  "name": "edwinsuesca-backend",
   "version": "1.0.0",
-  "description": "API REST para administración de portafolio",
+  "description": "API REST para administración de web personal",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js --exec babel-node"
   },
   "author": "edwinsuesca.co@gmail.com",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.3",
+    "@babel/node": "^7.20.7",
+    "@babel/plugin-transform-modules-commonjs": "^7.21.2",
+    "@babel/preset-env": "^7.20.2",
     "nodemon": "2.0.20"
   },
   "dependencies": {
+    "@types/express-fileupload": "^1.4.1",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "node-telegram-bot-api": "^0.61.0"
+    "jose": "^4.13.1",
+    "multer": "^1.4.5-lts.1",
+    "node-telegram-bot-api": "^0.61.0",
+    "pg": "^8.10.0"
   }
 }
