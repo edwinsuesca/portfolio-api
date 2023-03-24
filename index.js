@@ -1,7 +1,7 @@
-const https = require('https');
-const fs = require('fs');
 require('dotenv').config();
-const app = require('./src/app')
+import https from 'https';
+import fs from 'fs';
+import app from './src/app'
 const port = process.env.PORT || 3200;
 
 //INICIAR SERVIDOR EN ENTORNO DE DESARROLLO
@@ -9,7 +9,7 @@ const port = process.env.PORT || 3200;
     console.log(`Servidor web en ejecución en http://localhost:${port}`);
 }); */
 
-//INICIAR SERVIDOR EN ENTORNO DE DESARROLLO
+//INICIAR SERVIDOR EN ENTORNO DE PRODUCCIÓN
 
 // Configura opciones de SSL/TLS
 const options = {
