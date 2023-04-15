@@ -24,7 +24,7 @@ export const login = async (req, res) => {
                     const jwtConstructor = new jose.SignJWT({user_id, username});
                     const token = await jwtConstructor
                         .setProtectedHeader({alg: 'HS256', typ: 'JWT'})
-                        .setIssuedAt().setExpirationTime('1h').sign(encoder.encode(process.env.JWT_PRIVATE_KEY));
+                        .setIssuedAt().setExpirationTime('1d').sign(encoder.encode(process.env.JWT_PRIVATE_KEY));
                     sendLoginNotification(username, true);
                     return res.status(200).json({
                         username: username,

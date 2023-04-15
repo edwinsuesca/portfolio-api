@@ -17,7 +17,8 @@ app.use(cors({
 }));
 
 // Cargar archivos
-//app.post('/api/upload-file', files.uploadFile);
+app.post('/api/files/upload/:file', files.uploadFile);
+app.get('/api/files/images', authentication, files.getAllImages);
 app.use('/files', express.static(path.resolve('../files')));
 
 // Users

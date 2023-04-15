@@ -1,4 +1,5 @@
 import multer from 'multer';
+import pool from './database';
 import fs from 'fs';
 
 const storage = multer.diskStorage({
@@ -29,11 +30,43 @@ export const uploadFile = async (req, res, next) => {
                 return res.status(500).send({ message: 'Error al guardar imagen', error: err});
             }
             req.filename = req.file.filename;
-            next();
+            const response = await createFile(req.file.filename, req.file.mimetype);
+            if(response.severity){
+                return res.status(500).send({ message: 'Error al guardar información de archivo', error: response.detail});
+            }
+            if(req.params.file){
+                return res.status(200).json({message: `Archivo guardado.`});
+            } else{
+                next();
+            }
         });
 
     }  catch (err) {
         res.status(500).send({ message: 'Internal server error', error: err});
+    }
+}
+
+//Guardar datos de archivo en base de datos
+const createFile = async (filename, mimetype) => {
+    try {
+        const response = await pool.query('INSERT INTO "FILES" ("filename", "mimetype") VALUES ($1, $2)', [filename, mimetype]);
+        return response;
+    } catch (err){
+        return err;
+    }
+}
+
+export const getAllImages = (req, res) => {
+    try {
+        pool.query(`SELECT * FROM "FILES" WHERE mimetype LIKE 'image%'`, (err, result) => {
+          if (err) {
+            res.status(500).json({message: 'Error interno del servidor.', error: err});
+          } else {
+            res.send(result.rows);
+          }
+        });
+    } catch (err){
+        res.status(500).json({message: 'Error interno del servidor.', error: err});
     }
 }
 
@@ -57,7 +90,6 @@ export const updateFile = async (req, res) => {
                 };
             });
         }
-        
     });
 
   }  catch (err) {
