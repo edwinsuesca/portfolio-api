@@ -27,8 +27,8 @@ app.post('/api/users/login', users.login);
 app.get('/api/users/verify-token', verifyToken);
 
 // Comments and messages Telegram
-app.post('/api/send-sessage', controllers.sendMessage);
-app.post('/api/send-comment', controllers.sendComment);
+app.post('/api/send-sessage', users.sendMessage);
+app.post('/api/send-comment', users.sendComment);
 
 // Categories
 app.post('/api/categories', authentication, files.uploadFile, controllers.createCategory);

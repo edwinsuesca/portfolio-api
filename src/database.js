@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+process.env.TZ = 'America/Bogota';
+
 const pool = new Pool({
     user: process.env.USERDB,
     host: process.env.HOST,

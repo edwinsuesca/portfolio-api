@@ -1,47 +1,5 @@
 import pool from './database';
 import { formatUrlText, validateText } from './helpers';
-import TelegramBot from 'node-telegram-bot-api';
-
-const token = process.env.TOKEN_BOT;
-const chatId = process.env.CHAT_ID;
-export const bot = new TelegramBot(token, { polling: true, parse_mode: 'HTML' });
-
-// Comments and messages Telegram
-export const sendMessage =  (req, res) => {
-    try{
-        const { name, message, media } = req.body;
-        if(!name || !message || !media) return res.status(400).send('Bad request');
-    
-        const messageToSend = `<b>Mensaje: </b>\n<i>${message}</i>\n\n<b>Enviado por: </b>${name}\n<b>Medio: </b>${media}`
-        bot.sendMessage(chatId, messageToSend, { parse_mode: 'HTML' })
-        .then(() => {
-            res.status(200).json({message: 'Mensaje enviado correctamente.'});
-        })
-        .catch((error) => {
-            res.status(500).json({message: 'Error al enviar el mensaje:', error: error});
-        });
-    } catch (err){
-        res.status(500).send('Internal server error');
-    }
-};
-
-export const sendComment =  (req, res) => {
-    try{
-        const { message, article } = req.body;
-        if(!message || !article) return res.status(400).send('Bad request');
-    
-        const messageToSend = `<b>Mensaje: </b>\n<i>${message}</i>\n\n<b>Comentario acerca de: </b>${article}`
-        bot.sendMessage(chatId, messageToSend, { parse_mode: 'HTML' })
-        .then(() => {
-            res.status(200).json({message: 'Mensaje enviado correctamente.'});
-        })
-        .catch((error) => {
-            res.status(500).json({message: 'Error al enviar el mensaje:', error: error});
-        });
-    } catch (err){
-        res.status(500).send({message: 'Error interno del servidor', error: err});
-    }
-};
 
 // Articles
 export const createArticle = (req, res) => {
@@ -187,7 +145,7 @@ export const getAllArticles = (req, res) => {
 export const getLastArticles = (req, res) => {
     try {
         const amount = req.params.amount;
-        pool.query('SELECT * FROM "ARTICLES"  ORDER BY "creation_date" DESC LIMIT $1', [amount], async (err, result) => {
+        pool.query('SELECT * FROM "ARTICLES" WHERE "active" = true ORDER BY "creation_date" DESC LIMIT $1', [amount], async (err, result) => {
           if (err) {
             res.status(500).json({message: 'Error interno del servidor.', error: err});
           } else {
